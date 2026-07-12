@@ -197,21 +197,15 @@
       const pdf = new jsPDF({ unit: "mm", format: "a4", orientation: "portrait" });
       const pageW = pdf.internal.pageSize.getWidth();   // 210
       const pageH = pdf.internal.pageSize.getHeight();  // 297
-      const imgH = (canvas.height * pageW) / canvas.width;
       const img = canvas.toDataURL("image/jpeg", 0.98);
 
-      if (imgH <= pageH) {
-        pdf.addImage(img, "JPEG", 0, 0, pageW, imgH);
-      } else {
-        // paginate tall invoices
-        let remaining = imgH;
-        let position = 0;
-        while (remaining > 0) {
-          pdf.addImage(img, "JPEG", 0, position, pageW, imgH);
-          remaining -= pageH;
-          if (remaining > 0) { pdf.addPage(); position -= pageH; }
-        }
-      }
+      // Always fit the invoice on a single A4 page: scale to fit, center.
+      const mmPerPx = Math.min(pageW / canvas.width, pageH / canvas.height);
+      const w = canvas.width * mmPerPx;
+      const h = canvas.height * mmPerPx;
+      const x = (pageW - w) / 2;
+      const y = (pageH - h) / 2;
+      pdf.addImage(img, "JPEG", x, y, w, h);
 
       const safe = (s) => String(s || "").replace(/[^a-z0-9\-]+/gi, "-").replace(/^-+|-+$/g, "");
       pdf.save("Invoice-" + safe(state.invoiceNumber) + "-" + safe(state.clientName) + ".pdf");
