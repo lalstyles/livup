@@ -38,6 +38,15 @@
     return (neg ? "-" : "") + currency + " " + formatted;
   }
 
+  function hrefFor(type, value) {
+    const v = String(value || "").trim();
+    if (!v) return "";
+    if (type === "url") return "https://" + v.replace(/^https?:\/\//i, "");
+    if (type === "mailto") return "mailto:" + v;
+    if (type === "tel") return "tel:" + v.replace(/[^+\d]/g, "");
+    return v;
+  }
+
   function pad2(n) {
     const num = Math.round(Number(n) || 0);
     return num < 10 && num >= 0 ? "0" + num : String(num);
@@ -69,6 +78,12 @@
       "paymentMethod", "bankAccountName", "bankName", "accountNo", "iban",
       "currency", "footerAddress", "footerPhone",
     ].forEach((f) => setText(f, state[f]));
+
+    // make contact links clickable
+    $$("[data-link]").forEach((a) => {
+      const f = a.getAttribute("data-preview");
+      a.setAttribute("href", hrefFor(a.getAttribute("data-link"), state[f]));
+    });
 
     // line items
     const rows = $("#invRows");
@@ -206,6 +221,22 @@
       const x = (pageW - w) / 2;
       const y = (pageH - h) / 2;
       pdf.addImage(img, "JPEG", x, y, w, h);
+
+      // Overlay real clickable link areas so the PDF links work too.
+      const nodeRect = node.getBoundingClientRect();
+      const mmPerCssPx = w / nodeRect.width; // image width in mm ÷ node width in css px
+      $$("[data-link]", node).forEach((a) => {
+        const url = a.getAttribute("href");
+        if (!url) return;
+        const r = a.getBoundingClientRect();
+        pdf.link(
+          x + (r.left - nodeRect.left) * mmPerCssPx,
+          y + (r.top - nodeRect.top) * mmPerCssPx,
+          r.width * mmPerCssPx,
+          r.height * mmPerCssPx,
+          { url: url }
+        );
+      });
 
       const safe = (s) => String(s || "").replace(/[^a-z0-9\-]+/gi, "-").replace(/^-+|-+$/g, "");
       pdf.save("Invoice-" + safe(state.invoiceNumber) + "-" + safe(state.clientName) + ".pdf");
