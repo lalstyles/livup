@@ -310,7 +310,11 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-top: 56px;
+  /* auto pushes the summary + bank group lower; splits free space with the
+     footer's auto margin so there is a gap above the summary and below the
+     bank block, adapting to the number of line items */
+  margin-top: auto;
+  padding-top: 40px;
 }
 .sum-left { font-size: 14px; font-weight: 700; }
 .sum-left .sum-line { margin-bottom: 4px; }
