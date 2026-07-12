@@ -205,20 +205,23 @@ html, body {
 }
 
 /* header */
-.inv-top {
+.inv-top { display: block; }
+.inv-logo {
+  width: 200px;
+  height: auto;
+  display: block;
+  /* trim the transparent padding baked into the logo PNG */
+  margin: -34px 0 -30px -8px;
+}
+/* contact (left) + date (right) share one band, aligned together */
+.inv-headrow {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
-.inv-logo {
-  width: 190px;
-  height: auto;
-  display: block;
-  margin: -10px 0 4px -6px;
-}
 .inv-contact {
   list-style: none;
-  margin: 6px 0 0;
+  margin: 0;
   padding: 0;
 }
 .inv-contact li {
@@ -237,7 +240,7 @@ html, body {
 }
 .inv-meta {
   text-align: right;
-  margin-top: 20px;
+  margin-top: 2px;
 }
 .inv-date {
   font-size: 17px;
