@@ -1,0 +1,9 @@
+# Zero-build static site — Netlify serves the repo root as-is.
+[build]
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
