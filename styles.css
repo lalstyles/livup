@@ -193,13 +193,15 @@ html, body {
 .invoice {
   width: 794px;
   min-height: 1123px;
+  max-height: 1123px;
+  overflow: hidden;
   background: #fff;
   color: var(--ink);
-  padding: 60px 62px 40px;
+  padding: 46px 56px 34px;
   box-shadow: 0 10px 40px rgba(0,0,0,.14);
   display: flex;
   flex-direction: column;
-  font-size: 14px;
+  font-size: 13.5px;
 }
 
 /* header */
@@ -209,93 +211,93 @@ html, body {
   align-items: flex-start;
 }
 .inv-logo {
-  width: 220px;
+  width: 190px;
   height: auto;
   display: block;
-  margin: -14px 0 6px -6px;
+  margin: -10px 0 4px -6px;
 }
 .inv-contact {
   list-style: none;
-  margin: 8px 0 0;
+  margin: 6px 0 0;
   padding: 0;
 }
 .inv-contact li {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 16px;
+  gap: 9px;
+  font-size: 14px;
   color: var(--ink);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 .inv-contact .ico {
   color: #333;
   display: inline-flex;
-  width: 18px;
+  width: 17px;
   justify-content: center;
 }
 .inv-meta {
   text-align: right;
-  margin-top: 26px;
+  margin-top: 20px;
 }
 .inv-date {
-  font-size: 20px;
+  font-size: 17px;
   letter-spacing: .04em;
   color: var(--ink);
 }
 .inv-date strong { font-weight: 700; }
 .inv-num {
-  font-size: 13px;
-  letter-spacing: .14em;
+  font-size: 12px;
+  letter-spacing: .12em;
   color: var(--grey);
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 /* client */
 .inv-client {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
-  margin: 62px 0 0 14px;
+  margin: 30px 0 0 12px;
 }
 .inv-client strong { font-weight: 700; }
 
 /* table */
-.inv-table { margin-top: 44px; }
+.inv-table { margin-top: 24px; }
 .inv-thead {
   display: grid;
-  grid-template-columns: 1fr 90px 150px 150px;
+  grid-template-columns: minmax(0, 1fr) 60px 118px 110px;
   align-items: center;
   border: 1.5px solid var(--border);
   border-radius: 4px;
-  padding: 20px 26px;
-  font-size: 19px;
-  letter-spacing: .18em;
+  padding: 13px 22px;
+  font-size: 13px;
+  letter-spacing: .09em;
   color: var(--grey);
   font-weight: 400;
 }
 .inv-thead .col-qty,
-.inv-thead .col-price { text-align: left; }
+.inv-thead .col-price,
 .inv-thead .col-total { text-align: left; }
 
-.inv-tbody { margin-top: 26px; }
+.inv-tbody { margin-top: 18px; }
 .inv-item {
   display: grid;
-  grid-template-columns: 1fr 90px 150px 150px;
+  grid-template-columns: minmax(0, 1fr) 60px 118px 110px;
   align-items: start;
-  padding: 0 26px;
-  margin-bottom: 20px;
+  padding: 0 22px;
+  margin-bottom: 13px;
 }
 .inv-item .it-desc {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--ink);
   text-align: justify;
-  padding-right: 26px;
-  line-height: 1.35;
+  padding-right: 34px;
+  line-height: 1.4;
 }
 .inv-item .it-qty,
 .inv-item .it-price,
 .inv-item .it-total {
-  font-size: 15px;
+  font-size: 13px;
   color: var(--grey-line);
   letter-spacing: .02em;
 }
@@ -305,41 +307,37 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-top: 150px;
+  margin-top: 56px;
 }
-.sum-left { font-size: 15px; font-weight: 700; }
+.sum-left { font-size: 14px; font-weight: 700; }
 .sum-left .sum-line { margin-bottom: 4px; }
-.sum-right { text-align: right; min-width: 300px; }
+.sum-right { text-align: right; min-width: 260px; }
 .sum-total {
   display: grid;
-  grid-template-columns: 1fr 150px;
+  grid-template-columns: 1fr 118px;
   align-items: center;
-  margin-top: 40px;
-  padding-left: 26px;
+  margin-top: 22px;
+  padding-left: 22px;
 }
-.sum-total .tlabel { font-weight: 700; font-size: 15px; text-align: left; }
-.sum-total .tval { font-weight: 700; font-size: 15px; text-align: left; }
-.sum-right .sum-preview-total {
-  font-size: 15px;
-  color: var(--grey-line);
-}
+.sum-total .tlabel { font-weight: 700; font-size: 14px; text-align: left; }
+.sum-total .tval { font-weight: 700; font-size: 14px; text-align: left; }
 
 /* bank */
 .inv-bank {
-  margin-top: 30px;
-  font-size: 14px;
+  margin-top: 34px;
+  font-size: 12.5px;
   font-weight: 700;
-  letter-spacing: .06em;
-  line-height: 2.15;
+  letter-spacing: .05em;
+  line-height: 1.95;
   color: var(--ink);
 }
 
 /* footer */
 .inv-footer {
   margin-top: auto;
-  padding-top: 40px;
+  padding-top: 28px;
   text-align: center;
-  font-size: 17px;
+  font-size: 14px;
   color: var(--ink);
 }
 
