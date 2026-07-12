@@ -40,6 +40,12 @@ html, body {
   top: 0;
 }
 
+.panel-logo {
+  width: 120px;
+  height: auto;
+  display: block;
+  margin: -14px 0 -10px -6px;
+}
 .panel-head h1 {
   font-size: 20px;
   font-weight: 600;
@@ -82,7 +88,8 @@ html, body {
   color: var(--ink-soft);
   margin-bottom: 12px;
 }
-.panel input[type="text"] {
+.panel input[type="text"],
+.panel input[type="date"] {
   width: 100%;
   margin-top: 5px;
   padding: 8px 10px;
@@ -94,7 +101,9 @@ html, body {
   background: #fbfcfd;
   transition: border-color .15s, box-shadow .15s;
 }
-.panel input[type="text"]:focus {
+.panel input[type="date"] { appearance: none; }
+.panel input[type="text"]:focus,
+.panel input[type="date"]:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(184,134,11,.12);

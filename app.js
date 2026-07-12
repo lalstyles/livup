@@ -4,13 +4,43 @@
 (function () {
   "use strict";
 
+  // ---- Date helpers ----
+  function isoToday() {
+    const dt = new Date();
+    const y = dt.getFullYear();
+    const m = String(dt.getMonth() + 1).padStart(2, "0");
+    const d = String(dt.getDate()).padStart(2, "0");
+    return y + "-" + m + "-" + d;
+  }
+  function ordinal(d) {
+    const t = d % 100;
+    if (t >= 11 && t <= 13) return "th";
+    switch (d % 10) {
+      case 1: return "st";
+      case 2: return "nd";
+      case 3: return "rd";
+      default: return "th";
+    }
+  }
+  // "2026-07-11" -> "11th July 2026"
+  function formatDate(iso) {
+    if (!iso) return "";
+    const p = String(iso).split("-");
+    if (p.length !== 3) return iso;
+    const y = +p[0], m = +p[1], d = +p[2];
+    const months = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"];
+    if (!y || !m || !d || m < 1 || m > 12) return iso;
+    return d + ordinal(d) + " " + months[m - 1] + " " + y;
+  }
+
   // ---- Default data (from the supplied sample invoice) ----
   const state = {
     logo: window.LIVUP_LOGO || "",
     website: "www.livup.ae",
     email: "hi@livup.ae",
     phone: "+971-54-505-9320",
-    date: "10th July 2026",
+    date: isoToday(), // ISO yyyy-mm-dd; displayed as "11th July 2026"
     invoiceNumber: "07102026-0718J",
     clientName: "Suelen Oliveira",
     items: [
@@ -76,10 +106,13 @@
 
     // simple text fields
     [
-      "website", "email", "phone", "date", "invoiceNumber", "clientName",
+      "website", "email", "phone", "invoiceNumber", "clientName",
       "paymentMethod", "bankAccountName", "bankName", "accountNo", "iban",
       "currency", "footerAddress", "footerPhone",
     ].forEach((f) => setText(f, state[f]));
+
+    // date shows the picker's ISO value formatted as "11th July 2026"
+    setText("date", formatDate(state.date));
 
     // make contact links clickable
     $$("[data-link]").forEach((a) => {
@@ -253,6 +286,8 @@
 
   // ---- Init ----
   document.addEventListener("DOMContentLoaded", () => {
+    const panelLogo = $("#panelLogo");
+    if (panelLogo && window.LIVUP_LOGO) panelLogo.src = window.LIVUP_LOGO;
     renderItemsEditor();
     bindForm();
     renderPreview();
