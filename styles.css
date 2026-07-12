@@ -193,9 +193,18 @@ html, body {
 .stage {
   padding: 40px;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
   overflow: auto;
+}
+.stage-title {
+  align-self: flex-start;
+  margin: 0 0 20px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--grey);
 }
 
 /* A4 canvas @ ~96dpi = 794 x 1123px */
