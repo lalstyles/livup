@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LivUp — Invoice Generator</title>
+  <meta name="description" content="Generate LivUp-branded PDF invoices." />
+
+  <!-- Poppins (closest free match to the sample font) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- ============ FORM PANEL ============ -->
+    <aside class="panel" id="panel">
+      <div class="panel-head">
+        <h1>Invoice Generator</h1>
+        <p>Edit the fields — the preview updates live. Then download a PDF.</p>
+      </div>
+
+      <section class="form-group">
+        <h2>Header &amp; Contact</h2>
+        <label>Website<input type="text" data-field="website" /></label>
+        <label>Email<input type="text" data-field="email" /></label>
+        <label>Phone<input type="text" data-field="phone" /></label>
+        <label class="file-label">Logo (optional — defaults to LivUp)
+          <input type="file" id="logoUpload" accept="image/*" />
+        </label>
+      </section>
+
+      <section class="form-group">
+        <h2>Invoice Details</h2>
+        <label>Date<input type="text" data-field="date" /></label>
+        <label>Invoice Number<input type="text" data-field="invoiceNumber" /></label>
+        <label>Client Name<input type="text" data-field="clientName" /></label>
+      </section>
+
+      <section class="form-group">
+        <div class="group-head">
+          <h2>Line Items</h2>
+          <button type="button" class="btn-ghost" id="addItem">+ Add item</button>
+        </div>
+        <p class="hint">Tip: enter a <strong>negative price</strong> for a discount row.</p>
+        <div id="itemsList"></div>
+      </section>
+
+      <section class="form-group">
+        <h2>Bank Details</h2>
+        <label>Payment Method<input type="text" data-field="paymentMethod" /></label>
+        <label>Account Name<input type="text" data-field="bankAccountName" /></label>
+        <label>Bank Name<input type="text" data-field="bankName" /></label>
+        <label>Account No<input type="text" data-field="accountNo" /></label>
+        <label>IBAN<input type="text" data-field="iban" /></label>
+        <label>Currency<input type="text" data-field="currency" /></label>
+      </section>
+
+      <section class="form-group">
+        <h2>Footer</h2>
+        <label>Address line<input type="text" data-field="footerAddress" /></label>
+        <label>Footer phone<input type="text" data-field="footerPhone" /></label>
+      </section>
+
+      <div class="panel-actions">
+        <button type="button" class="btn-primary" id="downloadBtn">Download PDF</button>
+      </div>
+    </aside>
+
+    <!-- ============ PREVIEW ============ -->
+    <main class="stage">
+      <div class="invoice" id="invoice">
+        <header class="inv-top">
+          <div class="inv-brand">
+            <img class="inv-logo" id="invLogo" alt="Logo" />
+            <ul class="inv-contact">
+              <li>
+                <span class="ico">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg>
+                </span>
+                <span data-preview="website"></span>
+              </li>
+              <li>
+                <span class="ico">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3.5 6.5 12 13l8.5-6.5"/></svg>
+                </span>
+                <span data-preview="email"></span>
+              </li>
+              <li>
+                <span class="ico">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L16 12l5 2v3a2 2 0 0 1-2 2A15 15 0 0 1 4 6a2 2 0 0 1 1-2Z"/></svg>
+                </span>
+                <span class="u" data-preview="phone"></span>
+              </li>
+            </ul>
+          </div>
+          <div class="inv-meta">
+            <div class="inv-date">DATE: <strong data-preview="date"></strong></div>
+            <div class="inv-num">INVOICE NUMBER: <span data-preview="invoiceNumber"></span></div>
+          </div>
+        </header>
+
+        <div class="inv-client">NAME: <strong data-preview="clientName"></strong></div>
+
+        <div class="inv-table">
+          <div class="inv-thead">
+            <div class="col-service">SERVICE</div>
+            <div class="col-qty">QTY</div>
+            <div class="col-price">PRICE</div>
+            <div class="col-total">TOTAL</div>
+          </div>
+          <div class="inv-tbody" id="invRows"></div>
+        </div>
+
+        <div class="inv-summary">
+          <div class="sum-left">
+            <div class="sum-line"><span>SUBTOTAL:</span> <span data-preview="subtotal"></span></div>
+            <div class="sum-line" id="discountLine"><span>DISCOUNT:</span> <span data-preview="discount"></span></div>
+          </div>
+          <div class="sum-right">
+            <div class="sum-total"><span class="tlabel">TOTAL</span> <span class="tval" data-preview="total"></span></div>
+          </div>
+        </div>
+
+        <div class="inv-bank">
+          <div>PAYMENT METHOD: <span data-preview="paymentMethod"></span></div>
+          <div>NAME: <span data-preview="bankAccountName"></span></div>
+          <div>BANK NAME: <span data-preview="bankName"></span></div>
+          <div>ACCOUNT NO: <span data-preview="accountNo"></span></div>
+          <div>IBAN: <span data-preview="iban"></span></div>
+          <div>CURRENCY: <span data-preview="currency"></span></div>
+        </div>
+
+        <footer class="inv-footer">
+          <span data-preview="footerAddress"></span> T:&nbsp;<span class="u" data-preview="footerPhone"></span>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <!-- Vendored libs (self-contained, no runtime CDN) -->
+  <script src="vendor/html2canvas.min.js"></script>
+  <script src="vendor/jspdf.umd.min.js"></script>
+  <script src="logo.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
