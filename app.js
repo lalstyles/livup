@@ -55,12 +55,14 @@
   function totals() {
     let subtotal = 0;
     let discount = 0;
+    let qty = 0;
     state.items.forEach((it) => {
-      const line = (Number(it.qty) || 0) * (Number(it.price) || 0);
-      if (line >= 0) subtotal += line;
+      const q = Number(it.qty) || 0;
+      const line = q * (Number(it.price) || 0);
+      if (line >= 0) { subtotal += line; qty += q; } // count service qty only
       else discount += -line;
     });
-    return { subtotal: subtotal, discount: discount, total: subtotal - discount };
+    return { subtotal: subtotal, discount: discount, total: subtotal - discount, qty: qty };
   }
 
   // ---- Render preview ----
@@ -109,10 +111,10 @@
     setText("subtotal", money(t.subtotal, state.currency));
     setText("discount", money(t.discount, state.currency));
     setText("total", money(t.total, state.currency));
+    setText("totalQty", pad2(t.qty));
 
-    // discount is optional — hide the line when there is none
-    $("#invoice").querySelector(".inv-summary")
-      .classList.toggle("no-discount", t.discount === 0);
+    // discount is optional — hide the row when there is none
+    $("#discountRow").classList.toggle("is-hidden", t.discount === 0);
   }
 
   // ---- Render line-item editor ----

@@ -114,24 +114,33 @@
           <div class="inv-tbody" id="invRows"></div>
         </div>
 
-        <div class="inv-summary">
-          <div class="sum-left">
-            <div class="sum-line"><span>SUBTOTAL:</span> <span data-preview="subtotal"></span></div>
-            <div class="sum-line" id="discountLine"><span>DISCOUNT:</span> <span data-preview="discount"></span></div>
+        <section class="inv-bottom">
+          <div class="sum-rows">
+            <div class="sum-row">
+              <span class="sr-label">SUBTOTAL</span>
+              <span class="sr-qty" data-preview="totalQty"></span>
+              <span class="sr-amt" data-preview="subtotal"></span>
+            </div>
+            <div class="sum-row" id="discountRow">
+              <span class="sr-label">DISCOUNT</span>
+              <span class="sr-qty"></span>
+              <span class="sr-amt" data-preview="discount"></span>
+            </div>
           </div>
-          <div class="sum-right">
-            <div class="sum-total"><span class="tlabel">TOTAL</span> <span class="tval" data-preview="total"></span></div>
-          </div>
-        </div>
 
-        <div class="inv-bank">
-          <div>PAYMENT METHOD: <span data-preview="paymentMethod"></span></div>
-          <div>NAME: <span data-preview="bankAccountName"></span></div>
-          <div>BANK NAME: <span data-preview="bankName"></span></div>
-          <div>ACCOUNT NO: <span data-preview="accountNo"></span></div>
-          <div>IBAN: <span data-preview="iban"></span></div>
-          <div>CURRENCY: <span data-preview="currency"></span></div>
-        </div>
+          <div class="tot-bank">
+            <div class="inv-bank">
+              <div>PAYMENT METHOD: <span data-preview="paymentMethod"></span></div>
+              <div>NAME: <span data-preview="bankAccountName"></span></div>
+              <div>BANK NAME: <span data-preview="bankName"></span></div>
+              <div>ACCOUNT NO: <span data-preview="accountNo"></span></div>
+              <div>IBAN: <span data-preview="iban"></span></div>
+              <div>CURRENCY: <span data-preview="currency"></span></div>
+            </div>
+            <span class="tot-label">TOTAL</span>
+            <span class="tot-amt" data-preview="total"></span>
+          </div>
+        </section>
 
         <footer class="inv-footer">
           <span data-preview="footerAddress"></span> T:&nbsp;<a class="c-link u" data-preview="footerPhone" data-link="tel"></a>

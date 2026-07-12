@@ -305,33 +305,45 @@ html, body {
   letter-spacing: .02em;
 }
 
-/* summary */
-.inv-summary {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  /* auto pushes the summary + bank group lower; splits free space with the
-     footer's auto margin so there is a gap above the summary and below the
-     bank block, adapting to the number of line items */
+/* bottom: summary rows + (total aligned with bank block) */
+.inv-bottom {
+  /* auto pushes the whole group lower; splits free space with the footer's
+     auto margin, adapting to the number of line items */
   margin-top: auto;
   padding-top: 40px;
 }
-.sum-left { font-size: 14px; font-weight: 700; }
-.sum-left .sum-line { margin-bottom: 4px; }
-.sum-right { text-align: right; min-width: 260px; }
-.sum-total {
+.sum-row,
+.tot-bank {
   display: grid;
-  grid-template-columns: 1fr 118px;
-  align-items: center;
-  margin-top: 22px;
-  padding-left: 22px;
+  grid-template-columns: minmax(0, 1fr) 118px 130px;
+  padding: 0 22px;
 }
-.sum-total .tlabel { font-weight: 700; font-size: 14px; text-align: left; }
-.sum-total .tval { font-weight: 700; font-size: 14px; text-align: left; }
+.sum-row {
+  align-items: baseline;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.sum-row .sr-qty,
+.sum-row .sr-amt {
+  color: var(--grey-line);
+  font-weight: 400;
+}
+/* total row shares columns with the summary; bank block fills the left column
+   and TOTAL/amount align with its first line (PAYMENT METHOD) */
+.tot-bank {
+  align-items: start;
+  margin-top: 46px;
+}
+.tot-bank .inv-bank { grid-column: 1; }
+.tot-bank .tot-label,
+.tot-bank .tot-amt {
+  font-size: 14px;
+  font-weight: 700;
+}
 
 /* bank */
 .inv-bank {
-  margin-top: 34px;
   font-size: 12.5px;
   font-weight: 700;
   letter-spacing: .05em;
@@ -359,8 +371,8 @@ html, body {
 .c-link.u { text-decoration: underline; }
 .c-link:hover { color: var(--accent-dark); }
 
-/* hide discount line when empty */
-.inv-summary.no-discount #discountLine { display: none; }
+/* hide discount row when there is no discount */
+#discountRow.is-hidden { display: none; }
 
 /* ---------------- responsive ---------------- */
 @media (max-width: 1180px) {
